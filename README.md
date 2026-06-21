@@ -76,14 +76,17 @@ To install the plugin and server automatically without manual copying or configu
 
 ## MCP Server Setup
 
-The MCP server is published as an npm package and can be run directly with `npx`.
+> [!WARNING]
+> Since this is a custom fork with English translations, Revit 2027 support, and multi-instance port conflict resolution, running the default `npx -y mcp-server-for-revit` command will load the **original** package which does not contain these new features.
+> 
+> To use the features of this fork, we strongly recommend using the **[Automated Installer](#automated-installation-recommended)** (`install.exe`) or configuring your AI client to point to the local built server as shown in the **[Local / Development Build](#local--development-build)** section below.
 
 **Claude Code**
 
-Run this in a **terminal** (not inside Claude Code):
+Run this in a **terminal** (pointing to your local server build):
 
 ```bash
-claude mcp add mcp-server-for-revit -- cmd /c npx -y mcp-server-for-revit
+claude mcp add mcp-server-for-revit -- node "%APPDATA%/revit_mcp_plugin/server/build/index.js"
 ```
 
 **Claude Desktop**
@@ -94,8 +97,8 @@ Claude Desktop → Settings → Developer → Edit Config → `claude_desktop_co
 {
     "mcpServers": {
         "mcp-server-for-revit": {
-            "command": "cmd",
-            "args": ["/c", "npx", "-y", "mcp-server-for-revit"]
+            "command": "node",
+            "args": ["%APPDATA%/revit_mcp_plugin/server/build/index.js"]
         }
     }
 }
