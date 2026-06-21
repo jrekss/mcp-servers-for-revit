@@ -1,4 +1,4 @@
-[![Cover Image](./assets/cover.png?v=2)](https://github.com/mcp-servers-for-revit/mcp-servers-for-revit)
+[![Cover Image](./assets/cover.png?v=2)](https://github.com/jrekss/mcp-servers-for-revit)
 
 # mcp-servers-for-revit
 
@@ -7,7 +7,7 @@
 mcp-servers-for-revit enables AI clients like Claude, Cline, and other MCP-compatible tools to read, create, modify, and delete elements in Revit projects. It consists of three components: a TypeScript MCP server that exposes tools to AI, a C# Revit add-in that bridges commands into Revit, and a command set that implements the actual Revit API operations.
 
 > [!NOTE]
-> This is a fork of the original [revit-mcp](https://github.com/mcp-servers-for-revit/revit-mcp) project with additional tools and functionality improvements.
+> This is a personal fork of the original [revit-mcp](https://github.com/mcp-servers-for-revit/revit-mcp) project, adapted and translated to English by **jrekss**, with full support for Revit 2027 and a zero-configuration automated installer.
 
 ## Architecture
 
@@ -47,7 +47,7 @@ To install the plugin and server automatically without manual copying or configu
 
 ## Quick Start (Manual Installation)
 
-1. Download the ZIP for your Revit version from the [Releases](https://github.com/mcp-servers-for-revit/mcp-servers-for-revit/releases) page (e.g., `mcp-servers-for-revit-v1.0.0-Revit2025.zip`)
+1. Download the ZIP for your Revit version from the [Releases](https://github.com/jrekss/mcp-servers-for-revit/releases) page (e.g., `mcp-servers-for-revit-v1.0.0-Revit2025.zip`)
 
 2. Extract the ZIP and copy the contents to your Revit addins folder:
    ```
