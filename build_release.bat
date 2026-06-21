@@ -19,16 +19,24 @@ if %ERRORLEVEL% neq 0 (
 echo [SUCCESS] Node.js MCP Server built.
 echo.
 
-echo [2/3] Building Revit C# plugin (Debug and Release R27)...
+echo [2/3] Building Revit C# plugin (Release R22, R23, R24, R25, R26, R27)...
 rem Using portable .NET 10 SDK from the parent directory
 set "PORTABLE_DOTNET=..\.dotnet\dotnet.exe"
 if exist "%PORTABLE_DOTNET%" (
     echo Using portable .NET SDK: %PORTABLE_DOTNET%
-    "%PORTABLE_DOTNET%" build mcp-servers-for-revit.sln -c "Debug R27"
+    "%PORTABLE_DOTNET%" build mcp-servers-for-revit.sln -c "Release R22"
+    "%PORTABLE_DOTNET%" build mcp-servers-for-revit.sln -c "Release R23"
+    "%PORTABLE_DOTNET%" build mcp-servers-for-revit.sln -c "Release R24"
+    "%PORTABLE_DOTNET%" build mcp-servers-for-revit.sln -c "Release R25"
+    "%PORTABLE_DOTNET%" build mcp-servers-for-revit.sln -c "Release R26"
     "%PORTABLE_DOTNET%" build mcp-servers-for-revit.sln -c "Release R27"
 ) else (
     echo Portable .NET SDK not found. Trying system 'dotnet'...
-    dotnet build mcp-servers-for-revit.sln -c "Debug R27"
+    dotnet build mcp-servers-for-revit.sln -c "Release R22"
+    dotnet build mcp-servers-for-revit.sln -c "Release R23"
+    dotnet build mcp-servers-for-revit.sln -c "Release R24"
+    dotnet build mcp-servers-for-revit.sln -c "Release R25"
+    dotnet build mcp-servers-for-revit.sln -c "Release R26"
     dotnet build mcp-servers-for-revit.sln -c "Release R27"
 )
 if %ERRORLEVEL% neq 0 (
@@ -37,6 +45,13 @@ if %ERRORLEVEL% neq 0 (
     exit /b %ERRORLEVEL%
 )
 echo [SUCCESS] C# solution compiled successfully.
+echo.
+
+echo Copying default commandRegistry.json to all Release build folders...
+for %%v in (22 23 24 25 26 27) do (
+    if not exist "plugin\bin\AddIn 20%%v Release R%%v\revit_mcp_plugin\Commands" mkdir "plugin\bin\AddIn 20%%v Release R%%v\revit_mcp_plugin\Commands"
+    copy /y "commandRegistry.json" "plugin\bin\AddIn 20%%v Release R%%v\revit_mcp_plugin\Commands\commandRegistry.json" >nul
+)
 echo.
 
 echo [3/3] Compiling install.py into standalone install.exe...
@@ -64,4 +79,3 @@ echo.
 echo ====================================================
 echo            BUILD PROCESS COMPLETED SUCCESSFULLY!
 echo ====================================================
-pause
