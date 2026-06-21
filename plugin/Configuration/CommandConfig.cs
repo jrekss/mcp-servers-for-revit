@@ -4,7 +4,7 @@ using RevitMCPSDK.API.Interfaces;
 namespace revit_mcp_plugin.Configuration
 {
     /// <summary>
-    /// <para>命令配置类</para>
+    /// <para>Command configuration class</para>
     /// <para>Command configuration class.</para>
     /// </summary>
     public class CommandConfig
@@ -17,7 +17,7 @@ namespace revit_mcp_plugin.Configuration
         public string CommandName { get; set; }
 
         /// <summary>
-        /// <para>程序集路径 - 包含此命令的DLL</para>
+        /// <para>Assembly path - 包含此命令的DLL</para>
         /// <para>Assembly path - DLL containing this command.</para>
         /// </summary>
         [JsonProperty("assemblyPath")]
@@ -38,14 +38,14 @@ namespace revit_mcp_plugin.Configuration
         public string[] SupportedRevitVersions { get; set; } = new string[0];
 
         /// <summary>
-        /// <para>开发者信息</para>
+        /// <para>Developer info</para>
         /// <para>Developer information.</para>
         /// </summary>
         [JsonProperty("developer")]
         public DeveloperInfo Developer { get; set; } = new DeveloperInfo();
 
         /// <summary>
-        /// <para>命令描述</para>
+        /// <para>Command description</para>
         /// <para>Command description.</para>
         /// </summary>
         [JsonProperty("description")]

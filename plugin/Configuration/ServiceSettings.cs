@@ -3,7 +3,7 @@
 namespace revit_mcp_plugin.Configuration
 {
     /// <summary>
-    /// <para>服务设置类</para>
+    /// <para>Service settings class</para>
     /// <para>Service settings.</para>
     /// </summary>
     public class ServiceSettings

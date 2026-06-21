@@ -16,7 +16,7 @@ namespace RevitMCPCommandSet.Commands
         public override string CommandName => "create_point_based_element";
 
         /// <summary>
-        /// 构造函数
+        /// Constructor
         /// </summary>
         /// <param name="uiApp">Revit UIApplication</param>
         public CreatePointElementCommand(UIApplication uiApp)
@@ -29,27 +29,27 @@ namespace RevitMCPCommandSet.Commands
             try
             {
                 List<PointElement> data = new List<PointElement>();
-                // 解析参数
+                // Parse parameters
                 data = parameters["data"].ToObject<List<PointElement>>();
                 if (data == null)
                     throw new ArgumentNullException(nameof(data), "AI传入数据为空");
 
-                // 设置点状构件体参数
+                // Set point-based component parameters
                 _handler.SetParameters(data);
 
-                // 触发外部事件并等待完成
+                // Trigger external event and wait for completion
                 if (RaiseAndWaitForCompletion(10000))
                 {
                     return _handler.Result;
                 }
                 else
                 {
-                    throw new TimeoutException("创建点状构件操作超时");
+                    throw new TimeoutException("Timeout creating point-based component");
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception($"创建点状构件失败: {ex.Message}");
+                throw new Exception($"Create point-based component失败: {ex.Message}");
             }
         }
     }

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace revit_mcp_plugin.Core
 {
     /// <summary>
-    /// 管理外部事件的创建和生命周期
+    /// Manage the creation and lifecycle of external events.
     /// Manages the creation and lifecycle of external events.
     /// </summary>
     public class ExternalEventManager
@@ -41,15 +41,15 @@ namespace revit_mcp_plugin.Core
         }
 
         /// <summary>
-        /// 获取或创建外部事件
+        /// Get or create external event
         /// Obtain or create external events.
         /// </summary>
         public ExternalEvent GetOrCreateEvent(IWaitableExternalEventHandler handler, string key)
         {
             if (!_isInitialized)
-                throw new InvalidOperationException($"{nameof(ExternalEventManager)}尚未初始化\n{nameof(ExternalEventManager)}has not been initialized.");
+                throw new InvalidOperationException($"{nameof(ExternalEventManager)}Not yet initialized\n{nameof(ExternalEventManager)}has not been initialized.");
 
-            // 如果存在且处理器匹配，直接返回
+            // If it exists and the handler matches, return directly.
             // If it exists and the processor matches, return directly.
             if (_events.TryGetValue(key, out var wrapper) &&
                 wrapper.Handler == handler)
@@ -61,7 +61,7 @@ namespace revit_mcp_plugin.Core
             // You need to create events in the UI thread. 
             ExternalEvent externalEvent = null;
 
-            // 使用活动文档的上下文执行创建事件的操作
+            // Execute the operation to create an event using the context of the active document.
             // Perform the operation that created the event using the context of the active document.
             _uiApp.ActiveUIDocument.Document.Application.ExecuteCommand(
                 (uiApp) => {
@@ -80,7 +80,7 @@ namespace revit_mcp_plugin.Core
                 Handler = handler
             };
 
-            _logger.Info($"为 {key} 创建了新的外部事件\nCreated a new external event for key {key}.");
+            _logger.Info($"为 {key} Created new external event\nCreated a new external event for key {key}.");
 
             return externalEvent;
         }
@@ -114,7 +114,7 @@ namespace Autodesk.Revit.DB
         /// </summary>
         public static void ExecuteCommand(this Autodesk.Revit.ApplicationServices.Application app, CommandDelegate command)
         {
-            // 这个方法在 Revit 上下文中调用，可以安全地创建 ExternalEvent
+            // this method is in Revit called within context, can be safely created. ExternalEvent
             // This method is called in the Revit context and can safely create an ExternalEvent.
             command?.Invoke(new UIApplication(app));
         }

@@ -3,19 +3,19 @@
 namespace RevitMCPCommandSet.Models.Common;
 
 /// <summary>
-///     三维线段
+///     3D line segment
 /// </summary>
 public class JZLine
 {
     /// <summary>
-    ///     构造函数
+    ///     Constructor
     /// </summary>
     public JZLine()
     {
     }
 
     /// <summary>
-    ///     构造函数
+    ///     Constructor
     /// </summary>
     public JZLine(JZPoint p0, JZPoint p1)
     {
@@ -24,7 +24,7 @@ public class JZLine
     }
 
     /// <summary>
-    ///     四个double作为参数的构造函数
+    ///     四个doubleConstructor as parameter
     /// </summary>
     /// <param name="x0">起点X坐标</param>
     /// <param name="y0">起点Y坐标</param>
@@ -39,7 +39,7 @@ public class JZLine
     }
 
     /// <summary>
-    ///     四个double作为参数的构造函数
+    ///     四个doubleConstructor as parameter
     /// </summary>
     /// <param name="x0">起点X坐标</param>
     /// <param name="y0">起点Y坐标</param>
@@ -73,7 +73,7 @@ public class JZLine
         if (P0 == null || P1 == null)
             throw new InvalidOperationException("JZLine must have both P0 and P1 defined to calculate length.");
 
-        // 计算三维点之间的距离
+        // Calculate distance between 3D points
         var dx = P1.X - P0.X;
         var dy = P1.Y - P0.Y;
         var dz = P1.Z - P0.Z;
@@ -90,7 +90,7 @@ public class JZLine
         if (P0 == null || P1 == null)
             throw new InvalidOperationException("JZLine must have both P0 and P1 defined to calculate direction.");
 
-        // 计算方向向量
+        // Calculate direction vector
         var dx = P1.X - P0.X;
         var dy = P1.Y - P0.Y;
         var dz = P1.Z - P0.Z;
@@ -107,7 +107,7 @@ public class JZLine
 
     /// <summary>
     ///     转换为Revit的Line
-    ///     单位转换：mm -> ft
+    ///     Unit conversion: mm -> ft
     /// </summary>
     public static Line ToLine(JZLine jzLine)
     {

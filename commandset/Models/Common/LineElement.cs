@@ -3,7 +3,7 @@
 namespace RevitMCPCommandSet.Models.Common;
 
 /// <summary>
-/// 线状构件
+/// Line-based component
 /// </summary>
 public class LineElement
 {
@@ -43,19 +43,19 @@ public class LineElement
     public double Height { get; set; }
 
     /// <summary>
-    ///     底部标高
+    ///     Bottom level
     /// </summary>
     [JsonProperty("baseLevel")]
     public double BaseLevel { get; set; }
 
     /// <summary>
-    ///     底部偏移/基于面的偏移
+    ///     Bottom offset/基于面的偏移
     /// </summary>
     [JsonProperty("baseOffset")]
     public double BaseOffset { get; set; }
 
     /// <summary>
-    ///     参数化属性
+    ///     Parameterized property
     /// </summary>
     [JsonProperty("parameters")]
     public Dictionary<string, double> Parameters { get; set; }

@@ -6,7 +6,7 @@ namespace RevitMCPCommandSet.Services
 {
     public class GetCurrentViewElementsEventHandler : IExternalEventHandler, IWaitableExternalEventHandler
     {
-        // 默认模型类别列表
+        // Default model category list
         private readonly List<string> _defaultModelCategories = new List<string>
         {
             "OST_Walls",
@@ -38,20 +38,20 @@ namespace RevitMCPCommandSet.Services
             "OST_TitleBlocks"
         };
 
-        // 查询参数
+        // Query parameters
         private List<string> _modelCategoryList;
         private List<string> _annotationCategoryList;
         private bool _includeHidden;
         private int _limit;
 
-        // 执行结果
+        // Execution result
         public ViewElementsResult ResultInfo { get; private set; }
 
         // 状态同步对象
         public bool TaskCompleted { get; private set; }
         private readonly ManualResetEvent _resetEvent = new ManualResetEvent(false);
 
-        // 设置查询参数
+        // 设置Query parameters
         public void SetQueryParameters(List<string> modelCategoryList, List<string> annotationCategoryList, bool includeHidden, int limit)
         {
             _modelCategoryList = modelCategoryList;
@@ -91,17 +91,17 @@ namespace RevitMCPCommandSet.Services
                     allCategories.AddRange(_annotationCategoryList ?? new List<string>());
                 }
 
-                // 获取当前视图中的所有元素
+                // Get all elements in the current view
                 var collector = new FilteredElementCollector(doc, activeView.Id)
                     .WhereElementIsNotElementType();
 
                 // 获取所有元素
                 IList<Element> elements = collector.ToElements();
 
-                // 按类别筛选
+                // Filter by category
                 if (allCategories.Count > 0)
                 {
-                    // 转换字符串类别为枚举
+                    // Convert string category to enum
                     List<BuiltInCategory> builtInCategories = new List<BuiltInCategory>();
                     foreach (string categoryName in allCategories)
                     {
@@ -110,7 +110,7 @@ namespace RevitMCPCommandSet.Services
                             builtInCategories.Add(category);
                         }
                     }
-                    // 如果成功解析了类别，则使用类别过滤器
+                    // If the category is successfully parsed, use the category filter.
                     if (builtInCategories.Count > 0)
                     {
                         ElementMulticategoryFilter categoryFilter = new ElementMulticategoryFilter(builtInCategories);
@@ -226,7 +226,7 @@ namespace RevitMCPCommandSet.Services
 
         public string GetName()
         {
-            return "获取当前视图元素";
+            return "获取当前View element";
         }
     }
 }

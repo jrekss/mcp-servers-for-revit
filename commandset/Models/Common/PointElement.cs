@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 namespace RevitMCPCommandSet.Models.Common;
 
 /// <summary>
-///     点状构件
+///     Point-based component
 /// </summary>
 public class PointElement
 {
@@ -25,7 +25,7 @@ public class PointElement
     public int TypeId { get; set; } = -1;
 
     /// <summary>
-    ///     定位点坐标
+    ///     Location point coordinates
     /// </summary>
     [JsonProperty("locationPoint")]
     public JZPoint LocationPoint { get; set; }
@@ -49,37 +49,37 @@ public class PointElement
     public double Height { get; set; }
 
     /// <summary>
-    ///     底部标高
+    ///     Bottom level
     /// </summary>
     [JsonProperty("baseLevel")]
     public double BaseLevel { get; set; }
 
     /// <summary>
-    ///     底部偏移
+    ///     Bottom offset
     /// </summary>
     [JsonProperty("baseOffset")]
     public double BaseOffset { get; set; }
 
     /// <summary>
-    ///     旋转角度（度），用于非宿主构件（如家具）
+    ///     Rotation angle (degrees), used for non-hosted components (e.g., furniture)
     /// </summary>
     [JsonProperty("rotation")]
     public double Rotation { get; set; } = 0;
 
     /// <summary>
-    ///     显式宿主墙体ElementId，-1表示自动检测
+    ///     显式宿主墙体ElementId，-1represents automatic detection
     /// </summary>
     [JsonProperty("hostWallId")]
     public int HostWallId { get; set; } = -1;
 
     /// <summary>
-    ///     是否翻转门窗朝向
+    ///     Whether to flip door/window orientation
     /// </summary>
     [JsonProperty("facingFlipped")]
     public bool FacingFlipped { get; set; } = false;
 
     /// <summary>
-    ///     参数化属性
+    ///     Parameterized property
     /// </summary>
     [JsonProperty("parameters")]
     public Dictionary<string, double> Parameters { get; set; }

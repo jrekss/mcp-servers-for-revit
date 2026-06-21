@@ -21,7 +21,7 @@ namespace RevitMCPCommandSet.Commands
         public override string CommandName => "ai_element_filter";
 
         /// <summary>
-        /// 构造函数
+        /// Constructor
         /// </summary>
         /// <param name="uiApp">Revit UIApplication</param>
         public AIElementFilterCommand(UIApplication uiApp)
@@ -34,22 +34,22 @@ namespace RevitMCPCommandSet.Commands
             try
             {
                 FilterSetting data = new FilterSetting();
-                // 解析参数
+                // Parse parameters
                 data = parameters["data"].ToObject<FilterSetting>();
                 if (data == null)
                     throw new ArgumentNullException(nameof(data), "AI传入数据为空");
 
-                // 设置AI过滤器参数
+                // 设置AIFilter parameter
                 _handler.SetParameters(data);
 
-                // 触发外部事件并等待完成
+                // Trigger external event and wait for completion
                 if (RaiseAndWaitForCompletion(10000))
                 {
                     return _handler.Result;
                 }
                 else
                 {
-                    throw new TimeoutException("获取元素信息操作超时");
+                    throw new TimeoutException("Timeout getting element information");
                 }
             }
             catch (Exception ex)

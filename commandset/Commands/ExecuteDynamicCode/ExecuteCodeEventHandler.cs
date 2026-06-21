@@ -10,7 +10,7 @@ using RevitMCPSDK.API.Interfaces;
 namespace RevitMCPCommandSet.Commands.ExecuteDynamicCode
 {
     /// <summary>
-    /// 处理代码执行的外部事件处理器
+    /// External event handler for code execution.
     /// </summary>
     public class ExecuteCodeEventHandler : IExternalEventHandler, IWaitableExternalEventHandler
     {
@@ -22,14 +22,14 @@ namespace RevitMCPCommandSet.Commands.ExecuteDynamicCode
         private object[] _executionParameters;
         private string _transactionMode = TransactionModeAuto;
 
-        // 执行结果信息
+        // Execution result information
         public ExecutionResultInfo ResultInfo { get; private set; }
 
         // 状态同步对象
         public bool TaskCompleted { get; private set; }
         private readonly ManualResetEvent _resetEvent = new ManualResetEvent(false);
 
-        // 设置要执行的代码和参数
+        // Set code and parameters to execute
         public void SetExecutionParameters(string code, object[] parameters = null, string transactionMode = TransactionModeAuto)
         {
             _generatedCode = code;
@@ -39,7 +39,7 @@ namespace RevitMCPCommandSet.Commands.ExecuteDynamicCode
             _resetEvent.Reset();
         }
 
-        // 等待执行完成 - IWaitableExternalEventHandler接口实现
+        // 等待执行完成 - IWaitableExternalEventHandlerInterface implementation
         public bool WaitForCompletion(int timeoutMilliseconds = 10000)
         {
             _resetEvent.Reset();
@@ -84,7 +84,7 @@ namespace RevitMCPCommandSet.Commands.ExecuteDynamicCode
             catch (Exception ex)
             {
                 ResultInfo.Success = false;
-                ResultInfo.ErrorMessage = $"执行失败: {ex.Message}";
+                ResultInfo.ErrorMessage = $"Execution failed: {ex.Message}";
             }
             finally
             {
@@ -95,7 +95,7 @@ namespace RevitMCPCommandSet.Commands.ExecuteDynamicCode
 
         private object CompileAndExecuteCode(string code, Document doc, object[] parameters)
         {
-            // 包装代码以规范入口点
+            // Wrap code to standardize entry point
             var wrappedCode = $@"
 using System;
 using System.Linq;
@@ -117,14 +117,14 @@ namespace AIGeneratedCode
 
             var syntaxTree = CSharpSyntaxTree.ParseText(wrappedCode);
 
-            // 添加必要的程序集引用（引用所有已加载的程序集）
+            // Add necessary assembly references (referencing all loaded assemblies).
             var references = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(a => !a.IsDynamic && !string.IsNullOrEmpty(a.Location))
                 .Select(a => MetadataReference.CreateFromFile(a.Location))
                 .Cast<MetadataReference>()
                 .ToList();
 
-            // 编译代码
+            // Compile code
             var compilation = CSharpCompilation.Create(
                 "AIGeneratedCode",
                 syntaxTrees: new[] { syntaxTree },
@@ -161,7 +161,7 @@ namespace AIGeneratedCode
         }
     }
 
-    // 执行结果数据结构
+    // Execution result数据结构
     public class ExecutionResultInfo
     {
         [JsonProperty("success")]

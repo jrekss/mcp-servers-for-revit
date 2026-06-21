@@ -12,15 +12,15 @@ namespace RevitMCPCommandSet.Services
         private Document doc => uiDoc.Document;
         private Autodesk.Revit.ApplicationServices.Application app => uiApp.Application;
         /// <summary>
-        /// 事件等待对象
+        /// Event wait object
         /// </summary>
         private readonly ManualResetEvent _resetEvent = new ManualResetEvent(false);
         /// <summary>
-        /// 创建数据（传入数据）
+        /// Create data (incoming data)
         /// </summary>
         public List<SurfaceElement> CreatedInfo { get; private set; }
         /// <summary>
-        /// 执行结果（传出数据）
+        /// Execution result (outgoing data)
         /// </summary>
         public AIResult<List<int>> Result { get; private set; }
         public string _floorName = "常规 - ";
@@ -50,7 +50,7 @@ namespace RevitMCPCommandSet.Services
                     BuiltInCategory builtInCategory = BuiltInCategory.INVALID;
                     Enum.TryParse(data.Category.Replace(".", "").Replace("BuiltInCategory", ""), true, out builtInCategory);
 
-                    // Step1 获取标高和偏移
+                    // Step1 Get level和偏移
                     Level baseLevel = null;
                     Level topLevel = null;
                     double topOffset = -1;  // ft
@@ -62,7 +62,7 @@ namespace RevitMCPCommandSet.Services
                     if (baseLevel == null)
                         continue;
 
-                    // Step2 获取族类型
+                    // Step2 Get family type
                     FamilySymbol symbol = null;
                     FloorType floorType = null;
                     RoofType roofType = null;
@@ -76,7 +76,7 @@ namespace RevitMCPCommandSet.Services
                             if (typeEle != null && typeEle is FamilySymbol)
                             {
                                 symbol = typeEle as FamilySymbol;
-                                // 获取symbol的Category对象并转换为BuiltInCategory枚举
+                                // 获取symbol的Categoryobject and convert toBuiltInCategory枚举
                                 builtInCategory = (BuiltInCategory)symbol.Category.Id.GetIntValue();
                             }
                             else if (typeEle != null && typeEle is FloorType)
@@ -167,7 +167,7 @@ namespace RevitMCPCommandSet.Services
                                     .OfClass(typeof(FamilySymbol))
                                     .OfCategory(builtInCategory)
                                     .Cast<FamilySymbol>()
-                                    .FirstOrDefault(fs => fs.IsActive); // 获取激活的类型作为默认类型
+                                    .FirstOrDefault(fs => fs.IsActive); // Get the active type as the default type.
                                 if (symbol == null)
                                 {
                                     symbol = new FilteredElementCollector(doc)
@@ -184,7 +184,7 @@ namespace RevitMCPCommandSet.Services
 
                     // Step3 批量创建楼板
                     Floor floor = null;
-                    using (Transaction transaction = new Transaction(doc, "创建面状构件"))
+                    using (Transaction transaction = new Transaction(doc, "创建Face-based component"))
                     {
                         transaction.Start();
 
@@ -282,21 +282,21 @@ namespace RevitMCPCommandSet.Services
                 Result = new AIResult<List<int>>
                 {
                     Success = false,
-                    Message = $"创建面状构件时出错: {ex.Message}",
+                    Message = $"Error creating face-based component: {ex.Message}",
                 };
-                TaskDialog.Show("错误", $"创建面状构件时出错: {ex.Message}");
+                TaskDialog.Show("错误", $"Error creating face-based component: {ex.Message}");
             }
             finally
             {
-                _resetEvent.Set(); // 通知等待线程操作已完成
+                _resetEvent.Set(); // Notify waiting thread that operation is completed
             }
         }
 
         /// <summary>
         /// 等待创建完成
         /// </summary>
-        /// <param name="timeoutMilliseconds">超时时间（毫秒）</param>
-        /// <returns>操作是否在超时前完成</returns>
+        /// <param name="timeoutMilliseconds">Timeout (milliseconds)</param>
+        /// <returns>Whether operation completed before timeout</returns>
         public bool WaitForCompletion(int timeoutMilliseconds = 10000)
         {
             _resetEvent.Reset();
@@ -308,18 +308,18 @@ namespace RevitMCPCommandSet.Services
         /// </summary>
         public string GetName()
         {
-            return "创建面状构件";
+            return "创建Face-based component";
         }
 
         /// <summary>
-        /// 获取或创建指定厚度的楼板类型
+        /// Get or create a floor type with the specified thickness.
         /// </summary>
-        /// <param name="thickness">目标厚度（ft）</param>
-        /// <returns>符合厚度要求的楼板类型</returns>
+        /// <param name="thickness">Target thickness (ft）</param>
+        /// <returns>Floor type meeting thickness requirement</returns>
         private FloorType CreateOrGetFloorType(Document doc, double thickness = 200 / 304.8)
         {
 
-            // 查找匹配厚度的楼板类型
+            // Find floor type matching thickness
             FloorType existingType = new FilteredElementCollector(doc)
                                      .OfClass(typeof(FloorType))                    // 仅获取FloorType类
                                      .OfCategory(BuiltInCategory.OST_Floors)        // 仅获取楼板类别
@@ -327,7 +327,7 @@ namespace RevitMCPCommandSet.Services
                                      .FirstOrDefault(w => w.Name == $"{_floorName}{thickness * 304.8}mm");
             if (existingType != null)
                 return existingType;
-            // 如果没有找到匹配的楼板类型，创建新的
+            // If no matching floor type is found, create a new one.
             FloorType baseFloorType = existingType = new FilteredElementCollector(doc)
                                      .OfClass(typeof(FloorType))                    // 仅获取FloorType类
                                      .OfCategory(BuiltInCategory.OST_Floors)        // 仅获取楼板类别
@@ -342,23 +342,23 @@ namespace RevitMCPCommandSet.Services
                                      .FirstOrDefault();
             }
 
-            // 复制楼板类型
+            // Duplicate floor type
             FloorType newFloorType = null;
             newFloorType = baseFloorType.Duplicate($"{_floorName}{thickness * 304.8}mm") as FloorType;
 
-            // 设置新楼板类型的厚度
+            // Set thickness of new floor type
             // 获取构造层设置
             CompoundStructure cs = newFloorType.GetCompoundStructure();
             if (cs != null)
             {
-                // 获取所有层
+                // Get all levels
                 IList<CompoundStructureLayer> layers = cs.GetLayers();
                 if (layers.Count > 0)
                 {
                     // 计算当前总厚度
                     double currentTotalThickness = cs.GetWidth();
 
-                    // 按比例调整每层厚度
+                    // Adjust thickness of each layer proportionally
                     for (int i = 0; i < layers.Count; i++)
                     {
                         CompoundStructureLayer layer = layers[i];
@@ -366,7 +366,7 @@ namespace RevitMCPCommandSet.Services
                         cs.SetLayerWidth(i, newLayerThickness);
                     }
 
-                    // 应用修改后的构造层设置
+                    // Apply modified compound structure settings
                     newFloorType.SetCompoundStructure(cs);
                 }
             }

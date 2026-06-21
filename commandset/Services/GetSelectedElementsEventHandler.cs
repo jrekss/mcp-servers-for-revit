@@ -11,14 +11,14 @@ namespace RevitMCPCommandSet.Services
 {
     public class GetSelectedElementsEventHandler : IExternalEventHandler, IWaitableExternalEventHandler
     {
-        // 执行结果
+        // Execution result
         public List<Models.Common.ElementInfo> ResultElements { get; private set; }
 
         // 状态同步对象
         public bool TaskCompleted { get; private set; }
         private readonly ManualResetEvent _resetEvent = new ManualResetEvent(false);
 
-        // 限制返回的元素数量
+        // Limit the number of returned elements
         public int? Limit { get; set; }
 
         // 实现IWaitableExternalEventHandler接口
@@ -35,7 +35,7 @@ namespace RevitMCPCommandSet.Services
                 var uiDoc = app.ActiveUIDocument;
                 var doc = uiDoc.Document;
 
-                // 获取当前选中的元素
+                // Get currently selected elements
                 var selectedIds = uiDoc.Selection.GetElementIds();
                 var selectedElements = selectedIds.Select(id => doc.GetElement(id)).ToList();
 

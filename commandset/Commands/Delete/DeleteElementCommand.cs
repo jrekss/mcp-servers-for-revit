@@ -30,10 +30,10 @@ namespace RevitMCPCommandSet.Commands.Delete
                         throw new ArgumentException("元素ID列表不能为空");
                     }
 
-                    // 设置要删除的元素ID数组
+                    // Set elements to be deletedID数组
                     _handler.ElementIds = elementIds;
 
-                    // 触发外部事件并等待完成
+                    // Trigger external event and wait for completion
                     if (RaiseAndWaitForCompletion(15000))
                     {
                         if (_handler.IsSuccess)

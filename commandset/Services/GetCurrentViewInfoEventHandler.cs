@@ -6,7 +6,7 @@ namespace RevitMCPCommandSet.Services
 {
     public class GetCurrentViewInfoEventHandler : IExternalEventHandler, IWaitableExternalEventHandler
     {
-        // 执行结果
+        // Execution result
         public CurrentViewInfo ResultInfo { get; private set; }
 
         // 状态同步对象

@@ -1,4 +1,4 @@
-﻿// 
+// 
 //                       RevitAPI-Solutions
 // Copyright (c) Duong Tran Quang (DTDucas) (baymax.contact@gmail.com)
 // 
@@ -203,9 +203,21 @@ public static class GeometryUtils
     {
         // Implement algorithm to calculate intersection
         // Simple method: use Revit API to find intersection
+#if REVIT2027_OR_GREATER
+        var resultObj = line1.Intersect(line2, CurveIntersectResultOption.Detailed);
+        if (resultObj != null && resultObj.Result == SetComparisonResult.Overlap)
+        {
+            var overlaps = resultObj.GetOverlaps();
+            if (overlaps != null && overlaps.Count > 0)
+            {
+                return line1.Evaluate(overlaps[0].FirstParameter, false);
+            }
+        }
+#else
         var results = new IntersectionResultArray();
         if (line1.Intersect(line2, out results) == SetComparisonResult.Overlap && results.Size > 0)
             return results.get_Item(0).XYZPoint;
+#endif
         return null;
     }
 

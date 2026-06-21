@@ -23,7 +23,7 @@ namespace revit_mcp_plugin.Configuration
         }
 
         /// <summary>
-        /// <para>加载配置</para>
+        /// <para>Load configuration</para>
         /// <para>Load configuration from a JSON file.</para>
         /// </summary>
         public void LoadConfiguration()
@@ -34,7 +34,7 @@ namespace revit_mcp_plugin.Configuration
                 {
                     string json = File.ReadAllText(_configPath);
                     Config = JsonConvert.DeserializeObject<FrameworkConfig>(json);
-                    _logger.Info("已加载配置文件: {0}\nConfiguration file loaded: {0}", _configPath);
+                    _logger.Info("已Load configuration文件: {0}\nConfiguration file loaded: {0}", _configPath);
                 }
                 else
                 {
@@ -43,16 +43,16 @@ namespace revit_mcp_plugin.Configuration
             }
             catch (Exception ex)
             {
-                _logger.Error("加载配置文件失败: {0}\nFailed to load configuration file: {0}", ex.Message);
+                _logger.Error("Failed to load configuration file: {0}\nFailed to load configuration file: {0}", ex.Message);
             }
 
-            // 记录加载时间
+            // Record loading time
             // Register load time.
             _lastConfigLoadTime = DateTime.Now;
         }
 
         ///// <summary>
-        ///// <para>重新加载配置</para>
+        ///// <para>重新Load configuration</para>
         ///  <para>Reload configuration.</para>
         ///// </summary>
         //public void RefreshConfiguration()

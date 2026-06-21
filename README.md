@@ -32,7 +32,20 @@ The **MCP Server** (TypeScript) translates tool calls from AI clients into WebSo
 - **Node.js 18+** (for the MCP server)
 - **Autodesk Revit 2020 - 2026** (any supported version)
 
-## Quick Start (Using a Release)
+## Automated Installation (Recommended)
+
+To install the plugin and server automatically without manual copying or configuration:
+
+1. Clone or download this repository.
+2. Double-click the **`install.exe`** file in the repository root (or run `python install.py` from your terminal).
+3. The installer will:
+   - Automatically detect all installed Revit versions (2020–2027).
+   - Copy the C# add-in files to the correct `%APPDATA%\Autodesk\Revit\Addins\<version>\` directory.
+   - Copy the pre-built MCP server files to `%APPDATA%\revit_mcp_plugin\server`.
+   - Auto-configure any compatible AI clients (Claude Desktop, Cursor, Antigravity IDE, Cline) by writing to their configuration files.
+4. Restart your AI client (e.g., Antigravity IDE) and open Revit.
+
+## Quick Start (Manual Installation)
 
 1. Download the ZIP for your Revit version from the [Releases](https://github.com/mcp-servers-for-revit/mcp-servers-for-revit/releases) page (e.g., `mcp-servers-for-revit-v1.0.0-Revit2025.zip`)
 
@@ -89,6 +102,45 @@ Claude Desktop → Settings → Developer → Edit Config → `claude_desktop_co
 ```
 
 Restart Claude Desktop. When you see the hammer icon, the MCP server is connected.
+
+**Local / Development Build**
+
+If you want to run the local version of the server that you built from this repository:
+
+1. Build the server:
+   ```bash
+   cd server
+   npm install
+   npm run build
+   ```
+2. Configure your AI client to point to the built local file:
+
+   * **Claude Desktop (`claude_desktop_config.json`):**
+     ```json
+     {
+         "mcpServers": {
+             "mcp-server-for-revit-local": {
+                 "command": "node",
+                 "args": ["c:/Users/jreks/Documents/Revit/mcp-servers-for-revit/server/build/index.js"]
+             }
+         }
+     }
+     ```
+   * **Cursor (Settings → Features → MCP → + Add New MCP Server):**
+     - **Name:** `mcp-server-for-revit`
+     - **Type:** `command`
+     - **Command:** `node "c:/Users/jreks/Documents/Revit/mcp-servers-for-revit/server/build/index.js"`
+   * **Cline / VS Code (.cline_mcp_settings.json):**
+     ```json
+     {
+         "mcpServers": {
+             "mcp-server-for-revit-local": {
+                 "command": "node",
+                 "args": ["c:/Users/jreks/Documents/Revit/mcp-servers-for-revit/server/build/index.js"]
+             }
+         }
+     }
+     ```
 
 ![Claude Desktop connection](./assets/claude.png)
 

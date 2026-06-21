@@ -13,23 +13,23 @@ namespace RevitMCPCommandSet.Utils
     public static class JsonSchemaGenerator
     {
         /// <summary>
-        /// 生成并转换指定类型的 JSON Schema
+        /// Generate and convert specified type of JSON Schema
         /// </summary>
         /// <typeparam name="T">要生成 Schema 的类型</typeparam>
         /// <param name="mainPropertyName">转换后 Schema 中的主要属性名称</param>
-        /// <returns>转换后的 JSON Schema 字符串</returns>
+        /// <returns>Converted JSON Schema 字符串</returns>
         public static string GenerateTransformedSchema<T>(string mainPropertyName)
         {
             return GenerateTransformedSchema<T>(mainPropertyName, false);
         }
 
         /// <summary>
-        /// 生成并转换指定类型的 JSON Schema，支持 ThinkingProcess 属性
+        /// Generate and convert specified type of JSON Schema，支持 ThinkingProcess 属性
         /// </summary>
         /// <typeparam name="T">要生成 Schema 的类型</typeparam>
         /// <param name="mainPropertyName">转换后 Schema 中的主要属性名称</param>
-        /// <param name="includeThinkingProcess">是否添加 ThinkingProcess 属性</param>
-        /// <returns>转换后的 JSON Schema 字符串</returns>
+        /// <param name="includeThinkingProcess">Whether to add ThinkingProcess 属性</param>
+        /// <returns>Converted JSON Schema 字符串</returns>
         public static string GenerateTransformedSchema<T>(string mainPropertyName, bool includeThinkingProcess)
         {
             if (string.IsNullOrWhiteSpace(mainPropertyName))
@@ -54,7 +54,7 @@ namespace RevitMCPCommandSet.Utils
             JObject mainPropertySchema = GenerateSchema(typeof(T));
             AddProperty(rootSchema, mainPropertyName, mainPropertySchema, true);
 
-            // 为所有对象递归添加 "additionalProperties": false
+            // Recursively add for all objects "additionalProperties": false
             AddAdditionalPropertiesFalse(rootSchema);
 
             // 返回格式化后的 JSON Schema
@@ -62,7 +62,7 @@ namespace RevitMCPCommandSet.Utils
         }
 
         /// <summary>
-        /// 递归生成指定类型的 JSON Schema
+        /// Recursively generate specified type of JSON Schema
         /// </summary>
         private static JObject GenerateSchema(Type type)
         {
@@ -71,11 +71,11 @@ namespace RevitMCPCommandSet.Utils
             if (type == typeof(float) || type == typeof(double) || type == typeof(decimal)) return new JObject { ["type"] = "number" };
             if (type == typeof(bool)) return new JObject { ["type"] = "boolean" };
 
-            // 优先处理 Dictionary 类型
+            // Priority processing Dictionary 类型
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>))
                 return HandleDictionary(type);
 
-            // 处理数组或集合类型
+            // Handle array or collection types
             if (type.IsArray || (typeof(IEnumerable).IsAssignableFrom(type) && type.IsGenericType))
             {
                 Type itemType = type.IsArray ? type.GetElementType() : type.GetGenericArguments()[0];
@@ -86,7 +86,7 @@ namespace RevitMCPCommandSet.Utils
                 };
             }
 
-            // 处理类类型
+            // Process class type
             if (type.IsClass)
             {
                 var schema = new JObject
@@ -104,12 +104,12 @@ namespace RevitMCPCommandSet.Utils
                 return schema;
             }
 
-            // 默认处理为字符串
+            // Handled as string by default
             return new JObject { ["type"] = "string" };
         }
 
         /// <summary>
-        /// 专门处理 Dictionary<string, TValue> 类型，确保键是 string 类型，并正确处理值类型
+        /// Specifically handle Dictionary<string, TValue> 类型，确保键是 string type, and handle value type correctly
         /// </summary>
         private static JObject HandleDictionary(Type type)
         {
@@ -129,7 +129,7 @@ namespace RevitMCPCommandSet.Utils
         }
 
         /// <summary>
-        /// 为 Schema 添加属性
+        /// 为 Schema Add attribute
         /// </summary>
         private static void AddProperty(JObject schema, string propertyName, JToken propertySchema, bool isRequired)
         {
@@ -142,7 +142,7 @@ namespace RevitMCPCommandSet.Utils
         }
 
         /// <summary>
-        /// 为包含 "required" 属性的对象递归添加 "additionalProperties": false
+        /// 为包含 "required" Recursively add objects with properties "additionalProperties": false
         /// </summary>
         private static void AddAdditionalPropertiesFalse(JToken token)
         {

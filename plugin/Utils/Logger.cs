@@ -27,7 +27,7 @@ namespace revit_mcp_plugin.Utils
             // Output to debug window.
             System.Diagnostics.Debug.WriteLine(logEntry);
 
-            // 写入日志文件
+            // Write to log file
             // Write to the logfile.
             try
             {
@@ -35,7 +35,7 @@ namespace revit_mcp_plugin.Utils
             }
             catch
             {
-                // 如果写入日志文件失败，不抛出异常
+                // If writing to the log file fails, do not throw an exception.
                 // If writing to the logfile fails, do not throw an exception.
             }
         }

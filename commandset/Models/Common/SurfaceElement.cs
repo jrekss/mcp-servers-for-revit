@@ -3,7 +3,7 @@
 namespace RevitMCPCommandSet.Models.Common;
 
 /// <summary>
-///     面状构件
+///     Face-based component
 /// </summary>
 public class SurfaceElement
 {
@@ -25,7 +25,7 @@ public class SurfaceElement
     public int TypeId { get; set; } = -1;
 
     /// <summary>
-    ///     壳形轮廓边界
+    ///     Shell outline boundary
     /// </summary>
     [JsonProperty("boundary")]
     public JZFace Boundary { get; set; }
@@ -37,19 +37,19 @@ public class SurfaceElement
     public double Thickness { get; set; }
 
     /// <summary>
-    ///     底部标高
+    ///     Bottom level
     /// </summary>
     [JsonProperty("baseLevel")]
     public double BaseLevel { get; set; }
 
     /// <summary>
-    ///     底部偏移
+    ///     Bottom offset
     /// </summary>
     [JsonProperty("baseOffset")]
     public double BaseOffset { get; set; }
 
     /// <summary>
-    ///     参数化属性
+    ///     Parameterized property
     /// </summary>
     public Dictionary<string, double> Parameters { get; set; }
 }

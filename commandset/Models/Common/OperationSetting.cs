@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 namespace RevitMCPCommandSet.Models.Common
 {
     /// <summary>
-    /// 定义可对图元执行的操作类型
+    /// Define the types of operations that can be performed on elements.
     /// </summary>
     public enum ElementOperationType
     {
         /// <summary>
-        /// 选择图元
+        /// Select element
         /// </summary>
         Select,
 
@@ -23,7 +23,7 @@ namespace RevitMCPCommandSet.Models.Common
         SelectionBox,
 
         /// <summary>
-        /// 设置图元颜色和填充
+        /// Set element color and fill
         /// </summary>
         SetColor,
 
@@ -38,34 +38,34 @@ namespace RevitMCPCommandSet.Models.Common
         Delete,
 
         /// <summary>
-        /// 隐藏图元
+        /// Hide elements
         /// </summary>
         Hide,
 
         /// <summary>
-        /// 临时隐藏图元
+        /// Temporarily hide elements
         /// </summary>
         TempHide,
 
         /// <summary>
-        /// 隔离图元（单独显示）
+        /// Isolate elements (display individually)
         /// </summary>
         Isolate,
 
         /// <summary>
-        /// 取消隐藏图元
+        /// Unhide elements
         /// </summary>
         Unhide,
 
         /// <summary>
-        /// 重置隔离（显示所有图元）
+        /// Reset isolation (show all elements).
         /// </summary>
         ResetIsolate,
     }
 
 
     /// <summary>
-    /// 操作元素的设置
+    /// Operate on element的设置
     /// </summary>
     public class OperationSetting
     {
@@ -76,21 +76,21 @@ namespace RevitMCPCommandSet.Models.Common
         public List<int> ElementIds = new List<int>();
 
         /// <summary>
-        /// 需要执行的动作，存储ElementOperationType枚举的string类型的值
+        /// Required action to execute, storedElementOperationType枚举的string类型的值
         /// </summary>
         [JsonProperty("action")]
         public string Action { get; set; } = "Select";
 
         /// <summary>
-        /// 透明度值(0-100)，数值越大透明度越高
+        /// 透明度值(0-100), the larger the value, the higher the transparency
         /// </summary>
         [JsonProperty("transparencyValue")]
         public int TransparencyValue { get; set; } = 50;
 
         /// <summary>
-        /// 设置图元颜色（RGB格式），默认为红色
+        /// 设置图元颜色（RGBformat), default is red
         /// </summary>
         [JsonProperty("colorValue")]
-        public int[] ColorValue { get; set; } = new int[] { 255, 0, 0 }; // 默认红色
+        public int[] ColorValue { get; set; } = new int[] { 255, 0, 0 }; // Default red
     }
 }

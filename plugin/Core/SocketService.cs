@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
@@ -60,7 +60,7 @@ namespace revit_mcp_plugin.Core
             // Initialize ExternalEventManager
             ExternalEventManager.Instance.Initialize(uiApp, _logger);
 
-            // 记录当前 Revit 版本
+            // Record current Revit 版本
             // Get the current Revit version.
             var versionAdapter = new RevitMCPSDK.API.Utils.RevitVersionAdapter(_uiApp.Application);
             string currentVersion = versionAdapter.GetRevitVersion();
@@ -72,19 +72,19 @@ namespace revit_mcp_plugin.Core
             // Create CommandExecutor
             _commandExecutor = new CommandExecutor(_commandRegistry, _logger);
 
-            // 加载配置并注册命令
+            // Load configuration and register commands
             // Load configuration and register commands.
             ConfigurationManager configManager = new ConfigurationManager(_logger);
             configManager.LoadConfiguration();
             
 
-            //// 从配置中读取服务端口
+            //// Read service port from configuration
             //// Read the service port from the configuration.
             //if (configManager.Config.Settings.Port > 0)
             //{
             //    _port = configManager.Config.Settings.Port;
             //}
-            _port = 8080; // 固定端口号 - Hard-wired port number.
+            _port = 8080; // Fixed port number - Hard-wired port number.
 
             // 加载命令
             // Load command.
@@ -198,7 +198,7 @@ namespace revit_mcp_plugin.Core
                     }
 
                     string message = Encoding.UTF8.GetString(buffer, 0, bytesRead);
-                    System.Diagnostics.Trace.WriteLine($"收到消息: {message}\nReceived message: {message}");
+                    System.Diagnostics.Trace.WriteLine($"Message received: {message}\nReceived message: {message}");
 
                     string response = ProcessJsonRPCRequest(message);
 
@@ -228,7 +228,20 @@ namespace revit_mcp_plugin.Core
                 // Parse JSON-RPC requests.
                 request = JsonConvert.DeserializeObject<JsonRPCRequest>(requestJson);
 
-                // 验证请求格式是否有效
+                if (request != null && request.Method == "force_release_port")
+                {
+                    System.Threading.Thread stopThread = new System.Threading.Thread(() =>
+                    {
+                        System.Threading.Thread.Sleep(100);
+                        SocketService.Instance.Stop();
+                        Application.UpdateToggleButtonState(false);
+                    }) { IsBackground = true };
+                    stopThread.Start();
+
+                    return CreateSuccessResponse(request.Id, "released");
+                }
+
+                // Verify if request format is valid
                 // Verify that the request format is valid.
                 if (request == null || !request.IsValid())
                 {
@@ -262,7 +275,7 @@ namespace revit_mcp_plugin.Core
             }
             catch (JsonException)
             {
-                // JSON解析错误
+                // JSONParsing error
                 // JSON parsing error.
                 return CreateErrorResponse(
                     null,
@@ -272,7 +285,7 @@ namespace revit_mcp_plugin.Core
             }
             catch (Exception ex)
             {
-                // 处理请求时的其他错误
+                // Other errors while processing request
                 // Catch other errors produced when processing requests.
                 return CreateErrorResponse(
                     null,

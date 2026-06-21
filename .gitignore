@@ -371,3 +371,7 @@ FodyWeavers.xsd
 # =============================================================================
 .claude/
 .DS_Store
+
+# Revit MCP Compiled Installer
+install.exe
+

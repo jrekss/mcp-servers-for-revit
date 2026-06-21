@@ -8,7 +8,7 @@ namespace RevitMCPCommandSet.Models.Common;
 public class JZFace
 {
     /// <summary>
-    ///     构造函数
+    ///     Constructor
     /// </summary>
     public JZFace()
     {
@@ -23,7 +23,7 @@ public class JZFace
     public List<JZLine> OuterLoop { get; set; }
 
     /// <summary>
-    ///     内环（List<JZLine> 类型，表示一个或多个内环）
+    ///     内环（List<JZLine> type, representing one or more inner loops)
     /// </summary>
     [JsonProperty("innerLoops")]
     public List<List<JZLine>> InnerLoops { get; set; }

@@ -11,12 +11,12 @@ namespace RevitMCPCommandSet.Services
         private Autodesk.Revit.ApplicationServices.Application app => uiApp.Application;
 
         /// <summary>
-        /// 事件等待对象
+        /// Event wait object
         /// </summary>
         private readonly ManualResetEvent _resetEvent = new ManualResetEvent(false);
 
         /// <summary>
-        /// 标记结果数据
+        /// Mark result data
         /// </summary>
         public object TaggingResults { get; private set; }
 
@@ -51,7 +51,7 @@ namespace RevitMCPCommandSet.Services
                 List<object> createdTags = new List<object>();
                 List<string> errors = new List<string>();
 
-                using (Transaction tran = new Transaction(doc, "标记墙体"))
+                using (Transaction tran = new Transaction(doc, "Tag wall"))
                 {
                     tran.Start();
 
@@ -63,7 +63,7 @@ namespace RevitMCPCommandSet.Services
                         TaggingResults = new
                         {
                             success = false,
-                            message = "没有找到墙标记族类型"
+                            message = "No wall tag family type found"
                         };
                         tran.RollBack();
                         return;
@@ -120,7 +120,7 @@ namespace RevitMCPCommandSet.Services
                         }
                         catch (Exception ex)
                         {
-                            errors.Add($"标记墙体 {wall.Id.Value} 出错: {ex.Message}");
+                            errors.Add($"Tag wall {wall.Id.Value} 出错: {ex.Message}");
                         }
 #else
 try
@@ -163,7 +163,7 @@ try
                         }
                         catch (Exception ex)
                         {
-                            errors.Add($"标记墙体 {wall.Id.IntegerValue} 出错: {ex.Message}");
+                            errors.Add($"Tag wall {wall.Id.IntegerValue} 出错: {ex.Message}");
                         }
 #endif
                     }
@@ -182,7 +182,7 @@ try
             }
             catch (Exception ex)
             {
-                TaskDialog.Show("错误", $"标记墙体时出错: {ex.Message}");
+                TaskDialog.Show("错误", $"Tag wall时出错: {ex.Message}");
                 TaggingResults = new
                 {
                     success = false,
@@ -191,15 +191,15 @@ try
             }
             finally
             {
-                _resetEvent.Set(); // 通知等待线程操作已完成
+                _resetEvent.Set(); // Notify waiting thread that operation is completed
             }
         }
 
         /// <summary>
         /// 等待创建完成
         /// </summary>
-        /// <param name="timeoutMilliseconds">超时时间（毫秒）</param>
-        /// <returns>操作是否在超时前完成</returns>
+        /// <param name="timeoutMilliseconds">Timeout (milliseconds)</param>
+        /// <returns>Whether operation completed before timeout</returns>
         public bool WaitForCompletion(int timeoutMilliseconds = 10000)
         {
             _resetEvent.Reset();

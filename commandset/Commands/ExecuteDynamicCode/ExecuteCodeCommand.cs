@@ -5,7 +5,7 @@ using RevitMCPSDK.API.Base;
 namespace RevitMCPCommandSet.Commands.ExecuteDynamicCode
 {
     /// <summary>
-    /// 处理代码执行的命令类
+    /// Command class handling code execution
     /// </summary>
     public class ExecuteCodeCommand : ExternalEventCommandBase
     {
@@ -37,7 +37,7 @@ namespace RevitMCPCommandSet.Commands.ExecuteDynamicCode
                 // 设置执行参数
                 _handler.SetExecutionParameters(code, executionParameters, transactionMode);
 
-                // 触发外部事件并等待完成
+                // Trigger external event and wait for completion
                 if (RaiseAndWaitForCompletion(60000)) // 1分钟超时
                 {
                     return _handler.ResultInfo;
@@ -49,7 +49,7 @@ namespace RevitMCPCommandSet.Commands.ExecuteDynamicCode
             }
             catch (Exception ex)
             {
-                throw new Exception($"执行代码失败: {ex.Message}", ex);
+                throw new Exception($"Failed to execute code: {ex.Message}", ex);
             }
         }
     }

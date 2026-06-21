@@ -24,7 +24,7 @@ namespace RevitMCPCommandSet.Commands.Access
 
         public override object Execute(JObject parameters, string requestId)
         {
-            // 触发外部事件并等待完成
+            // Trigger external event and wait for completion
             if (RaiseAndWaitForCompletion(10000)) // 10秒超时
             {
                 return _handler.ResultInfo;
