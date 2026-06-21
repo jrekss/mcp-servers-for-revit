@@ -19,7 +19,7 @@ if %ERRORLEVEL% neq 0 (
 echo [SUCCESS] Node.js MCP Server built.
 echo.
 
-echo [2/3] Building Revit C# plugin (Debug & Release R27)...
+echo [2/3] Building Revit C# plugin (Debug and Release R27)...
 rem Using portable .NET 10 SDK from the parent directory
 set "PORTABLE_DOTNET=..\.dotnet\dotnet.exe"
 if exist "%PORTABLE_DOTNET%" (
