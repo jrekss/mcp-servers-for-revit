@@ -121,7 +121,7 @@ If you want to run the local version of the server that you built from this repo
           "mcpServers": {
               "mcp-server-for-revit": {
                   "command": "node",
-                  "args": ["C:/Users/jreks/AppData/Roaming/revit_mcp_plugin/server/build/index.js"]
+                  "args": ["%APPDATA%/revit_mcp_plugin/server/build/index.js"]
               }
           }
       }
@@ -129,14 +129,14 @@ If you want to run the local version of the server that you built from this repo
     * **Cursor / Antigravity IDE (Settings → Features → MCP → + Add New MCP Server):**
       - **Name:** `mcp-server-for-revit`
       - **Type:** `command`
-      - **Command:** `node "C:/Users/jreks/AppData/Roaming/revit_mcp_plugin/server/build/index.js"`
+      - **Command:** `node "%APPDATA%/revit_mcp_plugin/server/build/index.js"`
     * **Cline / VS Code (.cline_mcp_settings.json):**
       ```json
       {
           "mcpServers": {
               "mcp-server-for-revit": {
                   "command": "node",
-                  "args": ["C:/Users/jreks/AppData/Roaming/revit_mcp_plugin/server/build/index.js"]
+                  "args": ["%APPDATA%/revit_mcp_plugin/server/build/index.js"]
               }
           }
       }
