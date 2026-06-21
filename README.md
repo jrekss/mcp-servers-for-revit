@@ -30,7 +30,7 @@ The **MCP Server** (TypeScript) translates tool calls from AI clients into WebSo
 ## Requirements
 
 - **Node.js 18+** (for the MCP server)
-- **Autodesk Revit 2020 - 2026** (any supported version)
+- **Autodesk Revit 2020 - 2027** (any supported version)
 
 ## Automated Installation (Recommended)
 
@@ -47,7 +47,7 @@ To install the plugin and server automatically without manual copying or configu
 
 ## Quick Start (Manual Installation)
 
-1. Download the ZIP for your Revit version from the [Releases](https://github.com/jrekss/mcp-servers-for-revit/releases) page (e.g., `mcp-servers-for-revit-v1.0.0-Revit2025.zip`)
+1. Download the ZIP for your Revit version from the [Releases](https://github.com/jrekss/mcp-servers-for-revit/releases) page (e.g., `mcp-servers-for-revit-v1.0.0-Revit2027.zip`)
 
 2. Extract the ZIP and copy the contents to your Revit addins folder:
    ```
@@ -55,7 +55,7 @@ To install the plugin and server automatically without manual copying or configu
    ```
    After copying you should have:
    ```
-   Addins/2025/
+   Addins/2027/
    ├── mcp-servers-for-revit.addin
    └── revit_mcp_plugin/
        ├── RevitMCPPlugin.dll
@@ -63,7 +63,7 @@ To install the plugin and server automatically without manual copying or configu
        └── Commands/
            └── RevitMCPCommandSet/
                ├── command.json
-               └── 2025/
+               └── 2027/
                    ├── RevitMCPCommandSet.dll
                    └── ...
    ```
@@ -72,7 +72,7 @@ To install the plugin and server automatically without manual copying or configu
 
 4. Start Revit — if prompted about an unknown add-in, click **Always Load**
 
-5. In Revit, click the **Settings** button on the mcp-servers-for-revit ribbon tab, enable the commands you want to use, and click **Save**
+5. In Revit, click the **MCP Server** toggle button on the **Revit MCP Plugin** ribbon tab to start/stop the WebSocket server (displays green when active, gray when offline).
 
 ## MCP Server Setup
 
@@ -115,32 +115,32 @@ If you want to run the local version of the server that you built from this repo
    ```
 2. Configure your AI client to point to the built local file:
 
-   * **Claude Desktop (`claude_desktop_config.json`):**
-     ```json
-     {
-         "mcpServers": {
-             "mcp-server-for-revit-local": {
-                 "command": "node",
-                 "args": ["c:/Users/jreks/Documents/Revit/mcp-servers-for-revit/server/build/index.js"]
-             }
-         }
-     }
-     ```
-   * **Cursor (Settings → Features → MCP → + Add New MCP Server):**
-     - **Name:** `mcp-server-for-revit`
-     - **Type:** `command`
-     - **Command:** `node "c:/Users/jreks/Documents/Revit/mcp-servers-for-revit/server/build/index.js"`
-   * **Cline / VS Code (.cline_mcp_settings.json):**
-     ```json
-     {
-         "mcpServers": {
-             "mcp-server-for-revit-local": {
-                 "command": "node",
-                 "args": ["c:/Users/jreks/Documents/Revit/mcp-servers-for-revit/server/build/index.js"]
-             }
-         }
-     }
-     ```
+    * **Claude Desktop (`claude_desktop_config.json`):**
+      ```json
+      {
+          "mcpServers": {
+              "mcp-server-for-revit": {
+                  "command": "node",
+                  "args": ["C:/Users/jreks/AppData/Roaming/revit_mcp_plugin/server/build/index.js"]
+              }
+          }
+      }
+      ```
+    * **Cursor / Antigravity IDE (Settings → Features → MCP → + Add New MCP Server):**
+      - **Name:** `mcp-server-for-revit`
+      - **Type:** `command`
+      - **Command:** `node "C:/Users/jreks/AppData/Roaming/revit_mcp_plugin/server/build/index.js"`
+    * **Cline / VS Code (.cline_mcp_settings.json):**
+      ```json
+      {
+          "mcpServers": {
+              "mcp-server-for-revit": {
+                  "command": "node",
+                  "args": ["C:/Users/jreks/AppData/Roaming/revit_mcp_plugin/server/build/index.js"]
+              }
+          }
+      }
+      ```
 
 ![Claude Desktop connection](./assets/claude.png)
 
@@ -287,12 +287,18 @@ The server compiles TypeScript to `server/build/`. During development you can ru
 
 ### Revit Plugin + Command Set
 
-Open `mcp-servers-for-revit.sln` in Visual Studio. The solution contains both the plugin and command set projects. Build configurations target Revit 2020-2026:
+Open `mcp-servers-for-revit.sln` in Visual Studio. The solution contains both the plugin and command set projects. Build configurations target Revit 2020-2027:
 
 - **Revit 2020-2024**: .NET Framework 4.8 (`Release R20` through `Release R24`)
 - **Revit 2025-2026**: .NET 8 (`Release R25`, `Release R26`)
+- **Revit 2027**: .NET 10 (`Release R27`)
 
 Building the solution automatically assembles the complete deployable layout in `plugin/bin/AddIn <year> <config>/` - the command set is copied into the plugin's `Commands/` folder as part of the build.
+
+### Local Packaging / Release Build
+
+You can automate the compilation and packaging of the entire solution (Server build, C# Solution build for Revit 2027, and PyInstaller standalone installer generation) by double-clicking:
+* **`build_release.bat`** in the repository root.
 
 ## Project Structure
 
@@ -314,7 +320,7 @@ mcp-servers-for-revit/
 
 A single `v*` tag drives the entire release. The [release workflow](.github/workflows/release.yml) automatically:
 
-- Builds the Revit plugin + command set for Revit 2020-2026
+- Builds the Revit plugin + command set for Revit 2020-2027
 - Creates a GitHub release with `mcp-servers-for-revit-vX.Y.Z-Revit<year>.zip` assets
 - Publishes the MCP server to npm as [`mcp-server-for-revit`](https://www.npmjs.com/package/mcp-server-for-revit)
 
