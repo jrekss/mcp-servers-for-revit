@@ -199,14 +199,17 @@ The test project uses [Nice3point.TUnit.Revit](https://github.com/Nice3point/Rev
 ### Prerequisites
 
 - **.NET 10 SDK** — required by Nice3point.Revit.Sdk 6.1.0. Install via `winget install Microsoft.DotNet.SDK.10`
-- **Autodesk Revit 2026** (or 2025) — must be installed and licensed on your machine
+- **Autodesk Revit 2027** (or 2026, 2025) — must be installed and licensed on your machine
 
 ### Running Tests
 
-1. Open Revit 2026 (or 2025) and wait for it to fully load
+1. Open Revit 2027 (or 2026, 2025) and wait for it to fully load
 2. Run the tests from the command line:
 
 ```bash
+# For Revit 2027
+dotnet test -c Debug.R27 -r win-x64 tests/commandset
+
 # For Revit 2026
 dotnet test -c Debug.R26 -r win-x64 tests/commandset
 
@@ -220,7 +223,7 @@ Alternatively, you can use `dotnet run`:
 
 ```bash
 cd tests/commandset
-dotnet run -c Debug.R26
+dotnet run -c Debug.R27
 ```
 
 ### IDE Support
