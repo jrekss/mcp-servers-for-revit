@@ -510,8 +510,12 @@ def main():
         print("[ERROR] APPDATA environment variable or path not found. Installation aborted.")
         sys.exit(1)
         
-    target_app_dir = os.path.join(user_appdata, "revit_mcp_plugin")
-    server_js_path = os.path.join(target_app_dir, "server", "build", "index.js")
+    if getattr(sys, 'frozen', False):
+        app_dir = os.path.dirname(sys.executable)
+    else:
+        app_dir = os.path.dirname(os.path.abspath(__file__))
+        
+    server_js_path = os.path.join(app_dir, "server", "build", "index.js")
     
     if args.config_only:
         print("[INFO] Running in CONFIG-ONLY mode.")

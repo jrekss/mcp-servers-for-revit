@@ -12,10 +12,12 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName={userappdata}\revit_mcp_plugin
+DefaultDirName={autoappdata}\revit_mcp_plugin
 DisableDirPage=yes
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
+PrivilegesRequired=lowest
+PrivilegesRequiredOverridesAllowed=dialog commandline
 OutputDir=.
 OutputBaseFilename=RevitMCPSetup
 Compression=lzma
@@ -79,12 +81,12 @@ russian.ClientOpenCode=OpenCode
 
 [Files]
 ; Conditional deployment of C# addins based on custom Pascal page checkbox state
-Source: "plugin\bin\AddIn 2022 Release R22\*"; DestDir: "{userappdata}\Autodesk\Revit\Addins\2022"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallRevit2022
-Source: "plugin\bin\AddIn 2023 Release R23\*"; DestDir: "{userappdata}\Autodesk\Revit\Addins\2023"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallRevit2023
-Source: "plugin\bin\AddIn 2024 Release R24\*"; DestDir: "{userappdata}\Autodesk\Revit\Addins\2024"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallRevit2024
-Source: "plugin\bin\AddIn 2025 Release R25\*"; DestDir: "{userappdata}\Autodesk\Revit\Addins\2025"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallRevit2025
-Source: "plugin\bin\AddIn 2026 Release R26\*"; DestDir: "{userappdata}\Autodesk\Revit\Addins\2026"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallRevit2026
-Source: "plugin\bin\AddIn 2027 Release R27\*"; DestDir: "{userappdata}\Autodesk\Revit\Addins\2027"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallRevit2027
+Source: "plugin\bin\AddIn 2022 Release R22\*"; DestDir: "{autoappdata}\Autodesk\Revit\Addins\2022"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallRevit2022
+Source: "plugin\bin\AddIn 2023 Release R23\*"; DestDir: "{autoappdata}\Autodesk\Revit\Addins\2023"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallRevit2023
+Source: "plugin\bin\AddIn 2024 Release R24\*"; DestDir: "{autoappdata}\Autodesk\Revit\Addins\2024"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallRevit2024
+Source: "plugin\bin\AddIn 2025 Release R25\*"; DestDir: "{autoappdata}\Autodesk\Revit\Addins\2025"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallRevit2025
+Source: "plugin\bin\AddIn 2026 Release R26\*"; DestDir: "{autoappdata}\Autodesk\Revit\Addins\2026"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallRevit2026
+Source: "plugin\bin\AddIn 2027 Release R27\*"; DestDir: "{autoappdata}\Autodesk\Revit\Addins\2027"; Flags: ignoreversion recursesubdirs createallsubdirs; Check: InstallRevit2027
 
 ; Copy MCP Server files
 Source: "server\build\*"; DestDir: "{app}\server\build"; Flags: ignoreversion recursesubdirs createallsubdirs

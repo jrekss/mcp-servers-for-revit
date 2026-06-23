@@ -1,5 +1,8 @@
+using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Collections.Generic;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
 using Microsoft.CodeAnalysis;
@@ -120,6 +123,8 @@ namespace AIGeneratedCode
             // Add necessary assembly references (referencing all loaded assemblies).
             var references = AppDomain.CurrentDomain.GetAssemblies()
                 .Where(a => !a.IsDynamic && !string.IsNullOrEmpty(a.Location))
+                .GroupBy(a => a.GetName().Name)
+                .Select(g => g.First())
                 .Select(a => MetadataReference.CreateFromFile(a.Location))
                 .Cast<MetadataReference>()
                 .ToList();
