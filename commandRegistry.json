@@ -137,6 +137,36 @@
       "description": "Create dimension annotations between elements or points in the current view",
       "assemblyPath": "RevitMCPCommandSet/{VERSION}/RevitMCPCommandSet.dll",
       "enabled": true
+    },
+    {
+      "commandName": "get_parameters_from_elementid",
+      "description": "Get all parameters for a specific Revit element ID",
+      "assemblyPath": "RevitMCPCommandSet/{VERSION}/RevitMCPCommandSet.dll",
+      "enabled": true
+    },
+    {
+      "commandName": "set_parameter_value_for_elements",
+      "description": "Set parameter value for a list of Revit element IDs",
+      "assemblyPath": "RevitMCPCommandSet/{VERSION}/RevitMCPCommandSet.dll",
+      "enabled": true
+    },
+    {
+      "commandName": "get_location_for_element_ids",
+      "description": "Get location points or curves for a list of Revit element IDs",
+      "assemblyPath": "RevitMCPCommandSet/{VERSION}/RevitMCPCommandSet.dll",
+      "enabled": true
+    },
+    {
+      "commandName": "get_elements_by_category",
+      "description": "Get all elements matching category names or built-in category IDs",
+      "assemblyPath": "RevitMCPCommandSet/{VERSION}/RevitMCPCommandSet.dll",
+      "enabled": true
+    },
+    {
+      "commandName": "set_movement_for_elements",
+      "description": "Move a list of elements by an offset vector",
+      "assemblyPath": "RevitMCPCommandSet/{VERSION}/RevitMCPCommandSet.dll",
+      "enabled": true
     }
   ]
 }
